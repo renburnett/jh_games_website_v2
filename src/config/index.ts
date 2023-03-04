@@ -1,0 +1,1 @@
+export const serverPath: string = process.env.NODE_ENV !== 'production' ? 'http://localhost:3000' : 'https://jameshuttgames.com';
