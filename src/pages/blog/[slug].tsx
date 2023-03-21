@@ -5,7 +5,7 @@ import type {
 } from 'next';
 
 import { Meta } from '@/layouts/Meta';
-import { Main } from '@/templates/Main';
+import Main from '@/templates/Main';
 
 type IBlogUrl = {
   slug: string;
