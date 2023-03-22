@@ -28,12 +28,12 @@ const Main = (props: IMainProps) => {
   }
 
   return (
-       <>
+    <>
       <div className="grid h-screen place-items-center bg-gray-800 text-white">
         <main className="content py-5 text-xl">
           {/* TODO: crop all logos */}
           <Image className="w-56 mb-[-2.25rem] mx-auto" src={mainLogo} alt="Logo" />
-          <p className="text-center text-sm w-90 mx-auto mb-12">
+          <p className="text-center text-sm md:text-base w-90 mx-auto mb-12">
             Here is new soil for tabletop roleplaying games. <br/>
             You'll never have played anything like what will grow: <br/>
             Mechanically unique games, rich in novelty and depth. <br/>
@@ -41,10 +41,10 @@ const Main = (props: IMainProps) => {
           </p>
           <form
             id="newsletter-signup"
-            className="bg-gray-700 p-4 rounded shadow mx-auto w-90"
+            className="bg-gray-700 px-4 py-6 rounded shadow mx-auto w-90"
             onSubmit={(event) => handleFormSubmit(event)}
           >
-            <p className="mb-4">Newsletter Signup</p>
+            {/* <p className="mb-4">Newsletter Signup</p> */}
             <input className="bg-gray-600 w-full mb-4 p-2 text-white rounded" type="email" placeholder="Email" />
             <input className="bg-green-400 hover:bg-green-500 text-gray-800 px-4 py-2 rounded cursor-pointer" type="submit" value="Sign Up" />
           </form>

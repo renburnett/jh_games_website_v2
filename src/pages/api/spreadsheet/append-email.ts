@@ -12,6 +12,16 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     return res.status(500).json({ error: 'Invalid or missing credentials Ron' });
   }
 
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  // Handle preflight CORS request (OPTIONS method)
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   // const rehydratedCreds = JSON.parse(stringCreds);
   await doc.useServiceAccountAuth(JSON.parse(stringCreds));
 
