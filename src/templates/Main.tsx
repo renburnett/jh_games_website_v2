@@ -32,7 +32,7 @@ const Main = (props: IMainProps) => {
       <div className="grid h-screen place-items-center bg-gray-800 text-white">
         <main className="content py-5 text-xl">
           {/* TODO: crop all logos */}
-          <Image className="w-56 mb-[-2.25rem] mx-auto" src={mainLogo} alt="Logo" />
+          <Image className="w-56 mb-4 mx-auto" src={mainLogo} alt="Logo" />
           <p className="text-center text-sm md:text-base w-90 mx-auto mb-12">
             Here is new soil for tabletop roleplaying games. <br/>
             You'll never have played anything like what will grow: <br/>
