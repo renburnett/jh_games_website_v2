@@ -1,12 +1,19 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 const { GoogleSpreadsheet } = require('google-spreadsheet');
-const creds = require('../../../../.james-h-creds.json');
+// const creds = require('../../../../.james-h-creds.json');
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
   const SHEET_ID = '1t3x3e7z71e5fquiF9sfKrXqeFwbQpF24Z4HeKWz9GY0';
-
   const doc = new GoogleSpreadsheet(SHEET_ID);
-  await doc.useServiceAccountAuth(creds);
+
+  const stringCreds = process.env.GOOGLE_CREDS;
+
+  if (!stringCreds) {
+    return res.status(500).json({ error: 'Invalid or missing credentials Ron' });
+  }
+
+  // const rehydratedCreds = JSON.parse(stringCreds);
+  await doc.useServiceAccountAuth(JSON.parse(stringCreds));
 
   await doc.loadInfo(); // loads document properties and worksheets
   console.log(doc.title);

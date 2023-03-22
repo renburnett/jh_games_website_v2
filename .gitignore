@@ -44,3 +44,6 @@ Footer
 
 # Build artifacts
 dist/
+
+# Environment variables
+.env.local

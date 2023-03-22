@@ -1,6 +1,5 @@
 import { serverPath } from '../config';
 import Image from 'next/image';
-import { useEffect } from 'react';
 import { AppConfig } from '@/utils/AppConfig';
 import mainLogo from '@/images/logo_main_white.png';
 
