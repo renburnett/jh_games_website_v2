@@ -49,4 +49,4 @@ dist/
 .env.local
 
 # Mock localStorage
- .node-persist/
+ .node-persist

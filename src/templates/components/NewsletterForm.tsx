@@ -29,6 +29,7 @@ const NewsletterForm = (props: INewsletterFormProps) => {
     let savedEmail = null;
 
     try {
+      console.log(res)
       const { email } = await res.json();
       savedEmail = email;
       console.log('saved email:', email);
