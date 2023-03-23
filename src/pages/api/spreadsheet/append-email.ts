@@ -1,12 +1,23 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 const { GoogleSpreadsheet } = require('google-spreadsheet');
-// const creds = require('../../../../.james-h-creds.json');
+const storage = require('node-persist');
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
   const SHEET_ID = '1t3x3e7z71e5fquiF9sfKrXqeFwbQpF24Z4HeKWz9GY0';
   const doc = new GoogleSpreadsheet(SHEET_ID);
 
   const stringCreds = process.env.GOOGLE_CREDS;
+
+  await storage.init();
+  const timesSubmitted = await storage.getItem('timesSubmitted');
+
+  if (!timesSubmitted) {
+    await storage.setItem('timesSubmitted', 1);
+  } else if (timesSubmitted < 4) {
+    await storage.setItem('timesSubmitted', timesSubmitted + 1);
+  } else {
+    return res.status(500).json({ error: 'Too many submissions' });
+  }
 
   if (!stringCreds) {
     return res.status(500).json({ error: 'Invalid or missing credentials Ron' });
@@ -25,16 +36,28 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
   // const rehydratedCreds = JSON.parse(stringCreds);
   await doc.useServiceAccountAuth(JSON.parse(stringCreds));
 
-  await doc.loadInfo(); // loads document properties and worksheets
+  await doc.loadInfo();
   console.log(doc.title);
-  // await doc.updateProperties({ title: 'renamed doc' });
 
   const sheet = doc.sheetsByIndex[0];
-  console.log("WOOO HOO!!", sheet.title);
+  console.log("sheet title!!", sheet.title);
 
   const { email } = req.query;
 
-  await sheet.addRow([ email ], { insert: false, raw: true });
+  let writeSuccess = true;
+  let error = '';
 
-  return res.status(200).json({ email });
+  sheet.setHeaderRow(['email addresses']).then(() => {
+    sheet.addRow([ email ], { insert: false, raw: true }).catch((err: any) => {
+      error = err;
+      writeSuccess = false;
+    })
+  });
+
+  if (!writeSuccess) {
+    return res.status(500).json({ error: 'Failed to append email', details: error });
+  } else {
+    return res.status(200).json({ email });
+  }
+
 }
