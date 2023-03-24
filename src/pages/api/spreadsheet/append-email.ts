@@ -43,10 +43,13 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     })
   });
 
+  console.log('stringCreds', stringCreds);
+  console.log('sheet', sheet);
+
   if (!writeSuccess) {
     return res.status(500).json({ error: 'Failed to append email', details: error });
   } else {
-    return res.status(200).json({ email, stringCreds, sheet });
+    return res.status(200).json({ email });
   }
 
 }
