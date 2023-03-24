@@ -47,6 +47,3 @@ dist/
 
 # Environment variables
 .env.local
-
-# Mock localStorage
- .node-persist
