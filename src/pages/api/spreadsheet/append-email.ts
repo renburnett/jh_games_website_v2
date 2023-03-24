@@ -36,6 +36,8 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
 
   sheet.setHeaderRow(['email addresses']).then(() => {
     sheet.addRow([ email ], { insert: false, raw: true }).catch((err: any) => {
+      console.log('error', err);
+
       error = err;
       writeSuccess = false;
     })
@@ -44,7 +46,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
   if (!writeSuccess) {
     return res.status(500).json({ error: 'Failed to append email', details: error });
   } else {
-    return res.status(200).json({ email });
+    return res.status(200).json({ email, stringCreds, sheet });
   }
 
 }
