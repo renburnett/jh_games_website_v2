@@ -1,24 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 const { GoogleSpreadsheet } = require('google-spreadsheet');
-const storage = require('node-persist');
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
   const SHEET_ID = '1t3x3e7z71e5fquiF9sfKrXqeFwbQpF24Z4HeKWz9GY0';
   const doc = new GoogleSpreadsheet(SHEET_ID);
 
   const stringCreds = process.env.GOOGLE_CREDS;
-
-  await storage.init();
-  const timesSubmitted = await storage.getItem('timesSubmitted');
-
-  //TODO: uncomment
-  // if (!timesSubmitted) {
-  //   await storage.setItem('timesSubmitted', 1);
-  // } else if (timesSubmitted < 4) {
-  //   await storage.setItem('timesSubmitted', timesSubmitted + 1);
-  // } else {
-  //   return res.status(500).json({ error: 'Too many submissions' });
-  // }
 
   if (!stringCreds) {
     return res.status(500).json({ error: 'Invalid or missing credentials Ron' });
@@ -34,7 +21,6 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     return;
   }
 
-  // const rehydratedCreds = JSON.parse(stringCreds);
   await doc.useServiceAccountAuth(JSON.parse(stringCreds));
 
   await doc.loadInfo();
