@@ -11,13 +11,14 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
   await storage.init();
   const timesSubmitted = await storage.getItem('timesSubmitted');
 
-  if (!timesSubmitted) {
-    await storage.setItem('timesSubmitted', 1);
-  } else if (timesSubmitted < 4) {
-    await storage.setItem('timesSubmitted', timesSubmitted + 1);
-  } else {
-    return res.status(500).json({ error: 'Too many submissions' });
-  }
+  //TODO: uncomment
+  // if (!timesSubmitted) {
+  //   await storage.setItem('timesSubmitted', 1);
+  // } else if (timesSubmitted < 4) {
+  //   await storage.setItem('timesSubmitted', timesSubmitted + 1);
+  // } else {
+  //   return res.status(500).json({ error: 'Too many submissions' });
+  // }
 
   if (!stringCreds) {
     return res.status(500).json({ error: 'Invalid or missing credentials Ron' });
