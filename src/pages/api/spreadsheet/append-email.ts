@@ -5,9 +5,12 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
   const SHEET_ID = '1t3x3e7z71e5fquiF9sfKrXqeFwbQpF24Z4HeKWz9GY0';
   const doc = new GoogleSpreadsheet(SHEET_ID);
 
-  const stringCreds = process.env.GOOGLE_CREDS;
+  // const stringCreds = process.env.GOOGLE_CREDS;
 
-  if (!stringCreds) {
+  const googleEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+  const googleKey = process.env.GOOGLE_PRIVATE_KEY;
+
+  if (!googleEmail || !googleKey) {
     return res.status(500).json({ error: 'Invalid or missing credentials Ron' });
   }
 
@@ -21,7 +24,12 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     return;
   }
 
-  await doc.useServiceAccountAuth(JSON.parse(stringCreds));
+  await doc.useServiceAccountAuth({
+    client_email: googleEmail,
+    private_key: googleKey,
+  });
+
+  // await doc.useServiceAccountAuth(JSON.parse(stringCreds));
 
   await doc.loadInfo();
   console.log(doc.title);
@@ -34,17 +42,16 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
   let writeSuccess = true;
   let error = '';
 
-  sheet.setHeaderRow(['email addresses']).then(() => {
-    sheet.addRow([ email ], { insert: false, raw: true }).catch((err: any) => {
+  sheet.setHeaderRow(['email addresses']).then((response: any) => {
+    sheet.addRow([ email ], { insert: false, raw: true }).then((ting:any) => {
+      console.log('ting', ting);
+    }).catch((err: any) => {
       console.log('error', err);
 
       error = err;
       writeSuccess = false;
     })
   });
-
-  console.log('stringCreds', stringCreds);
-  console.log('sheet', sheet);
 
   if (!writeSuccess) {
     return res.status(500).json({ error: 'Failed to append email', details: error });
