@@ -9,16 +9,18 @@ const NewsletterForm = (props: INewsletterFormProps) => {
 
   const handleFormSubmit = async (event: any) => {
     event.preventDefault();
+    const submissionCountStr = localStorage.getItem('emailSubmissions');
+    let submissionCount = submissionCountStr ? JSON.parse(submissionCountStr) : 0;
 
-    if (submitting || remainingTime > 0) {
-      return; // don't allow submission if the form is already being submitted or the user needs to wait
+    if (submitting || remainingTime > 0 || submissionCount > 3) {
+      return;
     }
 
     const emailAddress = event.target[0].value;
 
-    if (!emailAddress) {
+    if (!emailAddress || emailAddress.length < 3) {
       //TODO: toss up some alert thing
-      alert("cannot submit empty email address");
+      alert("invalid email address");
       return; // don't allow empty submissions
     }
 
@@ -32,7 +34,10 @@ const NewsletterForm = (props: INewsletterFormProps) => {
     try {
       const { email } = await res.json();
       console.log("saved email:", email);
-      setRemainingTime(9);
+
+      submissionCount += 1;
+      localStorage.setItem('emailSubmissions', submissionCount);
+      setRemainingTime(10);
     } catch (error) {
       console.log("Error: ", error);
       alert(`Error: ${error}`);
