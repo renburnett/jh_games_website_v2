@@ -10,6 +10,9 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
   const googleEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
   const googleKey = process.env.GOOGLE_PRIVATE_KEY;
 
+  console.log('googleEmail', googleEmail)
+  console.log('googleKey', googleKey)
+
   if (!googleEmail || !googleKey) {
     return res.status(500).json({ error: 'Invalid or missing credentials Ron' });
   }
