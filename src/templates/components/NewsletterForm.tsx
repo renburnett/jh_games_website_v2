@@ -10,7 +10,7 @@ const NewsletterForm = (props: INewsletterFormProps) => {
   const handleFormSubmit = async (event: any) => {
     event.preventDefault();
     const submissionCountStr = localStorage.getItem('emailSubmissions');
-    let submissionCount = submissionCountStr ? JSON.parse(submissionCountStr) : 0;
+    let submissionCount : number = submissionCountStr ? JSON.parse(submissionCountStr) : 0;
 
     if (submitting || remainingTime > 0 || submissionCount > 3) {
       return;
@@ -36,7 +36,7 @@ const NewsletterForm = (props: INewsletterFormProps) => {
       console.log("saved email:", email);
 
       submissionCount += 1;
-      localStorage.setItem('emailSubmissions', submissionCount);
+      localStorage.setItem('emailSubmissions', submissionCount.toString());
       setRemainingTime(10);
     } catch (error) {
       console.log("Error: ", error);

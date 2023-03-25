@@ -20,7 +20,7 @@ const Main = (props: IMainProps) => {
           <NewsletterForm/>
         </main>
       </div>
-      <footer className="border-t border-gray-300 py-8 text-center text-sm">
+      <footer className="border-t border-gray-300 py-5 text-center text-sm">
         © Copyright {new Date().getFullYear()} {AppConfig.title}
       </footer>
     </>
