@@ -1,10 +1,9 @@
-import { serverPath } from '../../config';
-import { useState, useEffect } from 'react';
+import { serverPath } from "../../config";
+import { useState, useEffect } from "react";
 
 type INewsletterFormProps = any;
 
 const NewsletterForm = (props: INewsletterFormProps) => {
-
   const [submitting, setSubmitting] = useState(false);
   const [remainingTime, setRemainingTime] = useState(0);
 
@@ -19,31 +18,30 @@ const NewsletterForm = (props: INewsletterFormProps) => {
 
     if (!emailAddress) {
       //TODO: toss up some alert thing
-      alert('cannot submit empty email address')
+      alert("cannot submit empty email address");
       return; // don't allow empty submissions
     }
 
     setSubmitting(true);
 
-    const res = await fetch(`${serverPath}/api/spreadsheet/append-email?email=${emailAddress}`, {method: 'GET'});
-    let savedEmail = null;
+    const res = await fetch(
+      `${serverPath}/api/spreadsheet/append-email?email=${emailAddress}`,
+      { method: "GET" }
+    );
 
     try {
-      console.log(res)
       const { email } = await res.json();
-      savedEmail = email;
-      console.log('saved email:', email);
+      console.log("saved email:", email);
       setRemainingTime(9);
-
     } catch (error) {
-      console.log('Error: ', error);
-      alert(`Error: ${error}`)
+      console.log("Error: ", error);
+      alert(`Error: ${error}`);
       //TODO: toss up error info using error boundary thingy for whole app
     } finally {
       setSubmitting(false);
-      event.target[0].value = '';
+      event.target[0].value = "";
     }
-  }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -64,12 +62,19 @@ const NewsletterForm = (props: INewsletterFormProps) => {
       onSubmit={(event) => handleFormSubmit(event)}
     >
       {/* <p className="mb-4">Newsletter Signup</p> */}
-      <input className="bg-gray-600 w-full mb-4 p-2 text-white rounded" type="email" placeholder="Email" />
-      <button className="bg-green-400 hover:bg-green-500 text-gray-800 px-4 py-2 rounded cursor-pointer" disabled={submitting || remainingTime > 0}>
-        {submitting ? 'Submitting...' : 'Sign Up'}
+      <input
+        className="bg-gray-600 w-full mb-4 p-2 text-white rounded"
+        type="email"
+        placeholder="Email"
+      />
+      <button
+        className="bg-green-400 hover:bg-green-500 text-gray-800 px-4 py-2 rounded cursor-pointer"
+        disabled={submitting || remainingTime > 0}
+      >
+        {submitting ? "Submitting..." : "Sign Up"}
       </button>
     </form>
   );
-}
+};
 
-export default NewsletterForm ;
+export default NewsletterForm;
