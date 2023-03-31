@@ -47,3 +47,6 @@ dist/
 
 # Environment variables
 .env.local
+
+# Random local creds backup
+.creds.json
