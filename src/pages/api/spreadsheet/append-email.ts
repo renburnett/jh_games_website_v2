@@ -2,14 +2,10 @@ import { NextApiRequest, NextApiResponse } from 'next';
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const SHEET_ID = '1G2Yt6OikLNDJxtS9xZz-rVln_yZFNFvAhLLfNMuIV7k';
-  const doc = new GoogleSpreadsheet(SHEET_ID);
+  const doc = new GoogleSpreadsheet(process.env.SHEET_ID);
 
   const googleEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
   const googleKey = process.env.GOOGLE_PRIVATE_KEY;
-
-  console.log('googleEmail', googleEmail)
-  console.log('googleKey', googleKey)
 
   if (!googleEmail || !googleKey) {
     return res.status(500).json({ error: 'Invalid or missing credentials.' });
@@ -30,7 +26,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       client_email: googleEmail,
       private_key: googleKey,
     });
-    console.log('auth resp', doc);
 
     await doc.loadInfo();
     console.log(doc.title);

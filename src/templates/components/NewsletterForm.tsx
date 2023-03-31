@@ -2,11 +2,11 @@ import { serverPath } from "../../config";
 import { useState, useEffect } from "react";
 import styles from './NewsletterForm.module.css';
 
-
 type INewsletterFormProps = any;
 
 const NewsletterForm = (props: INewsletterFormProps) => {
   const [submitting, setSubmitting] = useState(false);
+  const [submissionFailed, setSubmissionFailed] = useState(false);
   const [remainingTime, setRemainingTime] = useState(0);
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
@@ -32,7 +32,7 @@ const NewsletterForm = (props: INewsletterFormProps) => {
     ) {
       //TODO: toss up some alert thingy
       alert("invalid email address");
-      return; // don't allow empty submissions
+      return; // don't allow invalid or empty submissions
     }
 
     setSubmitting(true);
@@ -55,8 +55,14 @@ const NewsletterForm = (props: INewsletterFormProps) => {
         setSubmissionSuccess(false);
       }, 3500);
     } catch (error) {
-      console.log("Error: ", error);
-      alert(`Error: ${error}`);
+      setSubmissionFailed(true);
+
+      setTimeout(() => {
+        setSubmissionFailed(false);
+      }, 3500);
+
+      console.error("Error: ", error);
+      // alert(`Error: ${error}`);
       //TODO: toss up error info using error boundary thingy for whole app
     } finally {
       setSubmitting(false);
@@ -97,6 +103,9 @@ const NewsletterForm = (props: INewsletterFormProps) => {
       </button>
       {submissionSuccess && (
         <div className="mt-3 text-green-300 text-center">Thank You!</div>
+      )}
+      {submissionFailed && (
+        <div className="mt-3 text-red-300 text-center">Failed to Save.</div>
       )}
     </form>
   );
