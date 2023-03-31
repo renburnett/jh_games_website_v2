@@ -96,7 +96,7 @@ const NewsletterForm = (props: INewsletterFormProps) => {
         {submitting ? "Submitting..." : "Sign Up"}
       </button>
       {submissionSuccess && (
-        <div className="mt-3 text-green-300 text-center">Great Success!</div>
+        <div className="mt-3 text-green-300 text-center">Thank You!</div>
       )}
     </form>
   );
