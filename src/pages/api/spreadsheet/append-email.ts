@@ -8,8 +8,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const googleEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
   const googleKey = process.env.GOOGLE_PRIVATE_KEY;
 
+  console.log('googleEmail', googleEmail)
+  console.log('googleKey', googleKey)
+
   if (!googleEmail || !googleKey) {
-    return res.status(500).json({ error: 'Invalid or missing credentials Ron' });
+    return res.status(500).json({ error: 'Invalid or missing credentials.' });
   }
 
   // Handle preflight CORS request (OPTIONS method)
@@ -22,12 +25,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-
   try {
-    await doc.useServiceAccountAuth({
+    const ting = await doc.useServiceAccountAuth({
       client_email: googleEmail,
-      private_key: googleKey.replace(/\\n/g, '\n'),
+      private_key: googleKey,
     });
+    console.log('auth resp', doc);
 
     await doc.loadInfo();
     console.log(doc.title);
