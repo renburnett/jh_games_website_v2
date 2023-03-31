@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const SHEET_ID = '1t3x3e7z71e5fquiF9sfKrXqeFwbQpF24Z4HeKWz9GY0';
+  const SHEET_ID = '1G2Yt6OikLNDJxtS9xZz-rVln_yZFNFvAhLLfNMuIV7k';
   const doc = new GoogleSpreadsheet(SHEET_ID);
 
   const googleEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
