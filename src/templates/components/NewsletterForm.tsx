@@ -30,7 +30,7 @@ const NewsletterForm = (props: INewsletterFormProps) => {
       ! emailAddress.includes("@") ||
       emailAddress.length < 3
     ) {
-      //TODO: toss up some alert thing
+      //TODO: toss up some alert thingy
       alert("invalid email address");
       return; // don't allow empty submissions
     }
