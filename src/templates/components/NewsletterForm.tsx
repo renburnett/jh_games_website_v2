@@ -27,8 +27,8 @@ const NewsletterForm = (props: INewsletterFormProps) => {
 
     if (
       ! emailAddress ||
-      emailAddress.length < 3 ||
-      ! emailAddress.includes("@")
+      ! emailAddress.includes("@") ||
+      emailAddress.length < 3
     ) {
       //TODO: toss up some alert thing
       alert("invalid email address");

@@ -26,7 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     await doc.useServiceAccountAuth({
       client_email: googleEmail,
-      private_key: googleKey,
+      private_key: googleKey.replace(/\\n/g, '\n'),
     });
 
     await doc.loadInfo();
