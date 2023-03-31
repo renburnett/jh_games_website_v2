@@ -53,7 +53,7 @@ const NewsletterForm = (props: INewsletterFormProps) => {
 
       setTimeout(() => {
         setSubmissionSuccess(false);
-      }, 5000);
+      }, 3500);
     } catch (error) {
       console.log("Error: ", error);
       alert(`Error: ${error}`);
