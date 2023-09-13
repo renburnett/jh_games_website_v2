@@ -1,4 +1,4 @@
-# 'James Hutt Games' Website
+# James Hutt Games Website
 https://jameshuttgames.com
 
 users can submit their email addresses to james' google sheet
